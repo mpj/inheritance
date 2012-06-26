@@ -1,14 +1,93 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+	<link href="/stylesheets/prettify.css" type="text/css" rel="stylesheet" />
 </head>
 
-<body>
+<body onload="prettyPrint()">
 	<canvas class="blur" src="/images/sf.jpg"></canvas>
 	<h1>How the hell to do inheritance in JavaScript</h1>
 
+ <pre class="prettyprint">
+var mammal = function(spec) {
+  var o = {};
+
+  o.get_name = function() {
+    return spec.name;
+  }
+
+  o.get_weight = function() {
+    return spec.weight;
+  }
+
+  o.talk = function() {
+    return '...';
+  }
+
+  return o;
+}
+
+var furry = function(spec) {
+  var o = mammal(spec);
+
+  o.get_fur = function() {
+    return spec.fur;
+  }
+
+  return o;
+}
+
+var cat = function(spec) {
+  var o = furry(spec);
+
+  o.talk = function() {
+    return "Meow! I'm " + o.get_name() + "!";
+  }
+
+  return o;
+}
+
+var dog = function(spec) {
+  var o = furry(spec);
+
+  // Initialize a public variable
+  // to default value null
+  o.chasing = null;
+
+  o.talk = function() {
+    return "Woof! Woof!";
+  }
+
+  o.chase = function(cat) {
+    o.chasing = cat;
+  }
+
+  return o;
+}
+
+
+var chester = cat({ 
+  name: "Chester", 
+  weight: 1.2,
+  fur: "White" 
+});
+
+var fido = dog({ 
+  name: "Fido", 
+  weight: 12.4,
+  fur: "Brown" 
+});
+
+chester.talk(); // Meow, I'm Chester!
+fido.talk();  // Woof! Woof!
+fido.chase(chester);
+fido.chasing.get_fur(); // White
+
+ </pre>
 </body>
 
+
+<script type="text/javascript" src="/javascripts/prettify/prettify.js"></script>
 <script type="text/javascript" src="/javascripts/jquery.js"></script>
 <script type="text/javascript" src="/javascripts/canvas-blur.js"></script>
 
