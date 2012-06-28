@@ -7,11 +7,11 @@
 <body>
 	<canvas class="blur" src="/images/sf.jpg"></canvas>
 	<h1>How the hell do I inherit with JavaScript?</h1>
-  <h4>There's a hojillion kabillion different ways that you can do inheritance in JavaScript.</h4>
-  <h4>I made this in case if you just want <b>one</b>.</h4>
+  <h4>There's a hojillion kabillion different ways to do inheritance in JavaScript.</h4>
+  <h4>I made this in case if you are fine with just one.</h4>
 
-  <div class="boxContainer">
 
+<br /><br /><br />
 
 
 <span class="help" data-position-at-anchor="mammal">
@@ -28,17 +28,23 @@
 
 
 <span class="help right" data-position-at-anchor="shared">
-  <span class="code highlight">shared</span> is simply an object containing variables and functions that mammal uses to share functions and variables with it's children without making them public.
-  <br /><br />
-  The <span class="code highlight">shared</span> object is initially created by the child at the end 
+  <p><span class="code highlight">shared</span> is simply an object containing variables and functions that mammal uses to share functions and variables with it's children without making them public.</p>
+  
+  <p>The <span class="code highlight">shared</span> object is initially created by the child at the end 
   of the hierarchy chain and is passed up all the way to the parent
-  at the top of the chain. 
-  <br /><br />
-  If this was Java, you would have used the <span class="code">protected</span>keyword to do this.
+  at the top of the chain.</p>
+
+  <p>If this was Java, you would have used the <span class="code">protected</span>keyword to do this.</p>
 
 </span>
 
- <pre class="prettyprint">
+<span class="help" data-position-at-anchor="get_fur">
+  Notice how we simply add a new function, <span class="code highlight">get_fur</span>, on the newly created mammal, and then just return it, because a mammal with a <span class="code highlight">get_fur</span> function <i>is</i> a furry mammal! We're done! Do you see how simple a world without classes becomes?
+</span>
+
+
+
+<div class="box code"><pre class="prettyprint">
   <a id="mammal" />var mammal = function(spec, shared) {
 
     // Private
@@ -57,37 +63,38 @@
 
 
     // Public
-    return {
-      get_name: function() {
-        return spec.name;
-      },
+    var o = {};
+    
+    o.get_name = function() {
+      return spec.name;
+    }
 
-      get_weight: function() {
-        return spec.weight;
-      },
+    o.get_weight = function() {
+      return spec.weight;
+    } 
 
-      talk: function() {
-        return '...';
-      }
+    o.talk = function() {
+      return '...';
     }
 
 }
+</pre></div>
 
-/*
-  Q:  I don't understand, is this how you create
-      a class in JavaScript?
+<div class="box question">
+  <h3>Huh, is the above how you create a class in JavaScript?</h3>
 
-  A:  NO! There ARE NO CLASSES in JavaScript, NOR IS THERE A NEED
-      FOR THEM! You must forget about classes and clear your mind.
-      Unfortunately, there are some programmers that try to 
-      re-create the concept of classes in JavaScript, but that is 
-      like traveling to France just to eat at McDonalds. 
+  <p><b>There are no classes in JavaScript, and that is as it should be!</b> Classes make sense in strongly typed languages (because the compiler needs them) but in dynamic languages, they just get in the way.</p>
 
-      Instead, JavaScript objects simply inherit other objects. 
-      Kind of like how you are a child of your mother - there isn't 
-      some mother-class that is extended by a you-class.
-*/
+  <p>Yes, there are some programmers that try to 
+  re-create the concept of classes in JavaScript, but that is 
+  like traveling to France just to eat at McDonalds.</p>
 
+  <p>Instead, <b>JavaScript objects simply inherit other objects</b>. 
+  Kind of like how you are a child of your mother - there isn't 
+  some mother-class that is extended by a you-class.</p>
+</div>
+
+<div class="box code"><pre class="prettyprint">
 var furry = function(spec, shared) {
 
   shared = shared || {};
@@ -95,47 +102,51 @@ var furry = function(spec, shared) {
   // A furry mammal is simply a mammal ...
   var o = mammal(spec, shared);
 
-  // with fur...
+  <a id="get_fur" />// with fur...
   o.get_fur = function() {
     return spec.fur;
   }
 
   return o;
 
-  // Notice how we simply add a new function, 
-  // get_fur, on the newly created mammal,
-  // and then just return it, because a 
-  // mammal with get_fur is a furry mammal!
-  // See how simple the world is without classes?
+
 }
+</pre></div>
 
-/*
-  Q: But what about TYPE? How can I detect what 
-     kind of object something is if it doesn't have a class?
 
-  A: Hush - it's okay. You've been working with classes for a 
+<div class="box question">
+  <h3>But what about TYPE? How can I detect what 
+     kind of object something is if it doesn't have a class?</h3>
+
+  <p>Hush - it's okay. You've been working with classes for a 
      long time and have become obsessed with taxonomies of things. 
      You have become concerned with what things ARE when in reality 
-     it's only important what they *can do*. 
+     it's only important what they <i>can do</i>.</p>
 
-     It doesn't matter if a programmer is a man or a woman, 
-     or black and white, it matters whether they can code or not. 
-     In Java, you check if an object is created from the 
-     Duck class, but in reality, it's the capability of something
-     that is important:
+  <p>It doesn't matter if a programmer is a man or a woman, 
+     or black and white, it matters whether they can code or not.</p>
+  
+  <p>In Java, you check if an object is created from the Duck class, but in reality, it's the capability of something that is important:</p>
 
+  <pre class="prettyprint">
      if (animal.quack)  {
        animal.quack();
      }
+  </pre>
    
-     If it looks like a duck and quacks like a duck ...
-     http://en.wikipedia.org/wiki/Duck_test
-*/
+  <p>As they say: <a href="http://en.wikipedia.org/wiki/Duck_test">"If it looks like a duck and quacks like a duck ..."</a></p>
+     
+</div>
 
 
+<span class="help" data-position-at-anchor="override">
+  Notice how there is no need for any <span class="code">override</span> keyword in JavaScript, we simply replace the existing function with a new one.
+</span>
+
+  
 
 
-
+<div class="box code"><pre class="prettyprint">
 
 var cat = function(spec, shared) {
   shared = shared || {};
@@ -144,32 +155,22 @@ var cat = function(spec, shared) {
   var o = furry(spec);
   
   // that talks in a different way ...
-  o.talk = function() {
+  <a id="override" />o.talk = function() {
     return "Meow! I'm " + o.get_name() + "!";
   }
 
-  // Notice how there is no need for an override in 
-  // JavaScript, we simply replace the existing
-  // function with a new one.
-
-
   return o;
 }
+</pre></div>
 
-/*
-  Q: Just REPLACING the talk function? What if I want to access
-     the original talk function, like I can do with super() in
-     language X?
+<div class="box question">
+  <h3>What? Did you just simply <i>replace</i> the talk function? What if I want to access the original talk function, like I can do with super() in language X?</h3>
 
-  A: It's very easy to implement super() in JavaScript, but I'm 
-    not including that technique in this guide because I've 
-    honestly never found a need for it. 
-    While the super concept is very important in strongly typed
-    languages, there just doesn't seem to be a need for it 
-    in JavaScript.
+  <p>While it's very easy to implement super() in JavaScript I'm not including that technique in this guide because I've <b>never found a need for it</b>. While the super concept is very important in strongly typed languages, there just doesn't seem to be a need for it in JavaScript.</p>
+</div>
 
-*/
 
+<div class="box code"><pre class="prettyprint">
 var dog = function(spec) {
   var o = furry(spec);
 
@@ -208,7 +209,8 @@ fido.talk();  // Woof! Woof!
 fido.chase(chester);
 fido.chasing.get_fur(); // White
 
- </pre>
+</pre></div>
+
 </body>
 
 

@@ -50,11 +50,24 @@ div.boxContainer {
 div.box {
   background-color: white;
   width: 370px;
-  display: inline-block;
+  display: block;
   clear: right;
   padding: 20px;
   font-size: 20px;
   text-align: left;
+  margin-top: 50px;
+}
+
+div.box.code {
+  width: 670px;
+  left: 300px;
+  position: relative;
+}
+
+div.box.question {
+  width: 670px;
+  left: 300px;
+  position: relative;
 }
 
 span.help {
@@ -65,10 +78,11 @@ span.help {
   padding: 13px;
   width: 250px;
   font-size: 13px;
+  line-height: 17px;
 }
 
 span.help.right {
-  left: 1100px;
+  left: 1090px;
 }
 
 span.help.mammal {
