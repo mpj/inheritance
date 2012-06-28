@@ -11,8 +11,23 @@ h1 {
   text-transform:uppercase;
   font-size: 80px;
   color: white;
+  margin: 0;
 }
-html, body { width: 100%; height: 100%; display: block; overflow-y: scroll; text-align: center;}
+h4 {
+  font-weight: normal;
+  font-size: 20px;
+  margin: 0;
+  color: white
+}
+
+html, body { 
+  width: 100%; 
+  height: 100%; 
+  display: block; 
+  overflow-y: scroll; 
+  font-family: 'Helvetica Neue', 'Trebuchet MS', sans-serif;
+
+}
 
 .blur {
   display: inline-block;
@@ -26,3 +41,53 @@ html, body { width: 100%; height: 100%; display: block; overflow-y: scroll; tex
 }
 
 body { padding: 30px;}
+
+div.boxContainer {
+  text-align: left;
+
+}
+
+div.box {
+  background-color: white;
+  width: 370px;
+  display: inline-block;
+  clear: right;
+  padding: 20px;
+  font-size: 20px;
+  text-align: left;
+}
+
+span.help {
+  position: absolute;
+  left: 30px;
+  background-color: white;
+  color: black;
+  padding: 13px;
+  width: 250px;
+  font-size: 13px;
+}
+
+span.help.right {
+  left: 1100px;
+}
+
+span.help.mammal {
+  top: 380px;
+}
+
+span.help.names {
+  top: 450px;
+}
+
+span.help.shared {
+  top: 575px;
+}
+
+span.help .code {
+  font-family: monospace;
+}
+
+span.help .highlight {
+  color: green;
+  font-weight: bold;
+}

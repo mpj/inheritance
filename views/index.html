@@ -4,61 +4,186 @@
 	<link href="/stylesheets/prettify.css" type="text/css" rel="stylesheet" />
 </head>
 
-<body onload="prettyPrint()">
+<body>
 	<canvas class="blur" src="/images/sf.jpg"></canvas>
-	<h1>How the hell to do inheritance in JavaScript</h1>
+	<h1>How the hell do I inherit with JavaScript?</h1>
+  <h4>There's a hojillion kabillion different ways that you can do inheritance in JavaScript.</h4>
+  <h4>I made this in case if you just want <b>one</b>.</h4>
+
+  <div class="boxContainer">
+
+
+
+<span class="help" data-position-at-anchor="mammal">
+  <span class="code highlight">mammal</span> is a function that creates a fresh mammal object.
+  This is often referred to as a <i>constructor</i> in JavaScript lingo, 
+  but since you probably have strong previous preconceptions about what
+  a constructor is, so it's better to think of it just as "a function that returns a fresh mammal object" for now.
+  
+  <br /><br />
+
+  <span class="code highlight">names</span> is a variable declared inside the mammal constructor which means that it's only accessible by functions declared inside of the mammal constructor. If this was Java, you would have used the <span class="code">private</span> keyword to do this.
+
+</span>
+
+
+<span class="help right" data-position-at-anchor="shared">
+  <span class="code highlight">shared</span> is simply an object containing variables and functions that mammal uses to share functions and variables with it's children without making them public.
+  <br /><br />
+  The <span class="code highlight">shared</span> object is initially created by the child at the end 
+  of the hierarchy chain and is passed up all the way to the parent
+  at the top of the chain. 
+  <br /><br />
+  If this was Java, you would have used the <span class="code">protected</span>keyword to do this.
+
+</span>
 
  <pre class="prettyprint">
-var mammal = function(spec) {
-  var o = {};
+  <a id="mammal" />var mammal = function(spec, shared) {
 
-  o.get_name = function() {
-    return spec.name;
-  }
+    // Private
+    <a id="names" />var names = [ 'Wayne', 'Francesca', 'John', 'Jackie' ];
+  
 
-  o.get_weight = function() {
-    return spec.weight;
-  }
+    
+    // Shared
+    <a id="shared" />shared = shared || {}; 
 
-  o.talk = function() {
-    return '...';
-  }
+    shared.randomName = function() {
+      var randomIndex = Math.round( Math.random() * names.length );
+      return names[randomIndex];
+    }
 
-  return o;
+
+
+    // Public
+    return {
+      get_name: function() {
+        return spec.name;
+      },
+
+      get_weight: function() {
+        return spec.weight;
+      },
+
+      talk: function() {
+        return '...';
+      }
+    }
+
 }
 
-var furry = function(spec) {
-  var o = mammal(spec);
+/*
+  Q:  I don't understand, is this how you create
+      a class in JavaScript?
 
+  A:  NO! There ARE NO CLASSES in JavaScript, NOR IS THERE A NEED
+      FOR THEM! You must forget about classes and clear your mind.
+      Unfortunately, there are some programmers that try to 
+      re-create the concept of classes in JavaScript, but that is 
+      like traveling to France just to eat at McDonalds. 
+
+      Instead, JavaScript objects simply inherit other objects. 
+      Kind of like how you are a child of your mother - there isn't 
+      some mother-class that is extended by a you-class.
+*/
+
+var furry = function(spec, shared) {
+
+  shared = shared || {};
+  
+  // A furry mammal is simply a mammal ...
+  var o = mammal(spec, shared);
+
+  // with fur...
   o.get_fur = function() {
     return spec.fur;
   }
 
   return o;
+
+  // Notice how we simply add a new function, 
+  // get_fur, on the newly created mammal,
+  // and then just return it, because a 
+  // mammal with get_fur is a furry mammal!
+  // See how simple the world is without classes?
 }
 
-var cat = function(spec) {
-  var o = furry(spec);
+/*
+  Q: But what about TYPE? How can I detect what 
+     kind of object something is if it doesn't have a class?
 
+  A: Hush - it's okay. You've been working with classes for a 
+     long time and have become obsessed with taxonomies of things. 
+     You have become concerned with what things ARE when in reality 
+     it's only important what they *can do*. 
+
+     It doesn't matter if a programmer is a man or a woman, 
+     or black and white, it matters whether they can code or not. 
+     In Java, you check if an object is created from the 
+     Duck class, but in reality, it's the capability of something
+     that is important:
+
+     if (animal.quack)  {
+       animal.quack();
+     }
+   
+     If it looks like a duck and quacks like a duck ...
+     http://en.wikipedia.org/wiki/Duck_test
+*/
+
+
+
+
+
+
+var cat = function(spec, shared) {
+  shared = shared || {};
+
+  // A cat is in essence a furry mammal ...
+  var o = furry(spec);
+  
+  // that talks in a different way ...
   o.talk = function() {
     return "Meow! I'm " + o.get_name() + "!";
   }
 
+  // Notice how there is no need for an override in 
+  // JavaScript, we simply replace the existing
+  // function with a new one.
+
+
   return o;
 }
+
+/*
+  Q: Just REPLACING the talk function? What if I want to access
+     the original talk function, like I can do with super() in
+     language X?
+
+  A: It's very easy to implement super() in JavaScript, but I'm 
+    not including that technique in this guide because I've 
+    honestly never found a need for it. 
+    While the super concept is very important in strongly typed
+    languages, there just doesn't seem to be a need for it 
+    in JavaScript.
+
+*/
 
 var dog = function(spec) {
   var o = furry(spec);
 
-  // Initialize a public variable
-  // to default value null
+  // A public variable
   o.chasing = null;
 
+  // Public method
   o.talk = function() {
     return "Woof! Woof!";
   }
 
+  // Public method
   o.chase = function(cat) {
+    // Assign values to the public variable.
     o.chasing = cat;
   }
 
@@ -90,5 +215,25 @@ fido.chasing.get_fur(); // White
 <script type="text/javascript" src="/javascripts/prettify/prettify.js"></script>
 <script type="text/javascript" src="/javascripts/jquery.js"></script>
 <script type="text/javascript" src="/javascripts/canvas-blur.js"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+  prettyPrint(function() {
+    setTimeout(function() {
+      $("*[data-position-at-anchor]").each(function() {
+        var $this = $(this),
+            anchor = $this.attr('data-position-at-anchor'),
+            anchorSelector = '#'.concat(anchor),
+            anchorOffset = $(anchorSelector).offset()
+        $this.css('top', anchorOffset.top + "px");
+      })
+    },200) // plz make your goddamn js libs callbacks that work, Google.
+    
+  })
+
+})
+
+</script>
 
 </html>
